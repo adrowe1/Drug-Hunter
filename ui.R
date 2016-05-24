@@ -10,6 +10,7 @@
 
 dashboardPage(skin = configData[1,"skin"],
 
+
               # Dashboard header ------------------
               dashboardHeader( title = configData[1,"title"],
                                # Header contents
@@ -21,17 +22,17 @@ dashboardPage(skin = configData[1,"skin"],
                 # tab menu
                 sidebarMenu(
                   ## tab 1
-                  menuItem("Setup", tabName = "setup", icon = icon("cog")),
+                  menuItem("Setup", tabName = "setup", icon = icon("wrench")),
                   ## tab 2
                   menuItem("Prepare a screen", tabName = "prepare", icon = icon("cog")),
                   ## tab 3
-                  menuItem("Import a dataset", tabName = "import", icon = icon("cog")),
+                  menuItem("Import a dataset", tabName = "import", icon = icon("upload")),
                   ## tab 4
-                  menuItem("Inspect a dataset", tabName = "inspect", icon = icon("th-large")),
+                  menuItem("Inspect a dataset", tabName = "inspect", icon = icon("search")),
                   ## tab 5
                   menuItem("Results", tabName = "output", icon = icon("th-large")),
                   ## tab 6
-                  menuItem("Report", tabName = "report", icon = icon("magic"))
+                  menuItem("Report", tabName = "report", icon = icon("file-pdf-o"))
                 )
               ),
 
@@ -44,16 +45,31 @@ dashboardPage(skin = configData[1,"skin"],
                   # Dashboard body tab 1 -----------------
                   tabItem(tabName = "setup",
                           fluidRow(
-                            box(width=12, title = "User details", solidHeader = TRUE, background="black", collapsible=FALSE, height = 180,
+                            box(width=12, title = "User details", solidHeader = TRUE, background="black", collapsible=FALSE, height = 600,
                                 column(width=4,
-                                       h3("username menu")
+                                       h3("info")
                                        )
                                 )
                           )
                           ),
 
                   # Dashboard body tab 1 -----------------
-                  tabItem(tabName = "prepare"),
+                  tabItem(tabName = "prepare",
+                    fluidRow(
+                      tabBox(width=12,
+                        # colour="black",
+                        title = "Prepare a screen",
+                        # solidHeader=TRUE,
+                        id = "tabsPrep",
+                        height = 600,
+                        tabPanel(width=12, title = "Setup", solidHeader = TRUE, collapsible=FALSE, height = 600,
+                          column(width=4,
+                            h3("info")
+                          )
+                        )
+                      )
+                    )
+                    ),
 
                   # Dashboard body tab 1 -----------------
                   tabItem(tabName = "import"),

@@ -2,6 +2,7 @@
 ### LIBRARIES --------------------
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 library(magrittr)
 library(dplyr)
 
@@ -9,11 +10,13 @@ library(tidyr)
 library(stringr)
 library(tools)
 library(ggplot2)
+library(viridis)
 
 library(RSQLite)
 library(lubridate)
 library(readr)
 library(lazyeval)
+library(drugHunteR)
 
 # library(drugHunteR)
 #library(RColorBrewer)
