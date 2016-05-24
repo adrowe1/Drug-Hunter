@@ -1,7 +1,7 @@
 # Drug-Hunter
 R-shiny tools for preparing and interpreting high throughput drug screens
 
-### Brief oveview of TODOs and functions
+### Brief overview of TODOs and functions
 1. given a library of drugs to choose from, and a map of the well coordinates for each compound, create a picking list to distribute titrations of compounds between the necessary number of 384 well plates. 
   - make this flexible in terms of number of titrations, adding blank controls and the number of wells in the plates - potentially have a list of standard plate sizes to choose between.
   - set a seed for randomization so repeated generations of the same setup give a standard result.  
