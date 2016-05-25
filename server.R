@@ -32,7 +32,9 @@ shinyServer(function(input, output, session) {
 
 
 
+  # Interactive UI outputs ------------------------
 
+  source('components/interactiveUIelements.R', local=TRUE)
 
 
 

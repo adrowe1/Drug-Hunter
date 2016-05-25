@@ -2,7 +2,6 @@
 ### LIBRARIES --------------------
 library(shiny)
 library(shinydashboard)
-library(shinythemes)
 library(magrittr)
 library(dplyr)
 

@@ -75,7 +75,32 @@ dashboardPage(skin = configData[1,"skin"],
                     ),
 
                   # Dashboard body tab 1 -----------------
-                  tabItem(tabName = "import"),
+                  tabItem(tabName = "import",
+                          fluidRow(
+                            tabBox(width=12,
+                                   title = "Import Raw Data",
+                                   id = "tabsPrep",
+                                   height = 400,
+                                   tabPanel(width=12, title = "Choose files",
+                                            box(width=4, height=150, title="Upload .zip file", solidHeader=TRUE, background="red",
+                                                fileInput("filesIn", "Import zipped data files", multiple = FALSE, accept = c(".zip") )
+                                            ),
+                                            uiOutput("chooseFilesSampleGroupsBox")
+                                   ),
+                                   tabPanel(width=12, title = "Settings",
+                                            box(width=4, height=150, title="Transfer file identifier", solidHeader=TRUE, background="olive",
+                                                textInput("transferPattern", "Pattern", value="Transfer")
+                                            ),
+                                            box(width=4, height=150, title="Compound file identifier", solidHeader=TRUE, background="olive",
+                                                textInput("compoundPattern", "Pattern", value="Compound_Annotations.xls")
+                                            ),
+                                            box(width=4, height=150, title="Compound file identifier", solidHeader=TRUE, background="olive",
+                                                textInput("pickingPattern", "Pattern", value="_pick.csv")
+                                            )
+                                   )
+                            )
+                          )
+                          ),
 
                   # Dashboard body tab 1 -----------------
                   tabItem(tabName = "inspect"),

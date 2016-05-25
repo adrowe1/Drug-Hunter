@@ -19,6 +19,28 @@ R-shiny tools for preparing and interpreting high throughput drug screens
 7. Setup choose USER and store user info in DB with relevant files
 
 
+## Structure of data files for upload
+
+```
+|-data.zip
+   |
+   |-donor 1
+   |  |-dispensing
+   |  |  |-\*Transfer\*.csv
+   |  |-plates 
+   |     |-*1.csv
+   |     |-*2.csv
+   |     |- ...
+   |
+   |-donor 2
+        |-dispensing
+        |  |-\*Transfer\*.csv
+        |-plates 
+           |-*1.csv
+           |-*2.csv
+           |- ...
+ 
+```
 
 
 
