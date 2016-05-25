@@ -1,2 +1,4 @@
 skin: red
 title: Drug Hunter
+dbType: SQLite
+dbPath: data/local_db.sqlite3

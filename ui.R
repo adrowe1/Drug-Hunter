@@ -57,14 +57,17 @@ dashboardPage(skin = configData[1,"skin"],
                   tabItem(tabName = "prepare",
                     fluidRow(
                       tabBox(width=12,
-                        # colour="black",
                         title = "Prepare a screen",
-                        # solidHeader=TRUE,
                         id = "tabsPrep",
-                        height = 600,
-                        tabPanel(width=12, title = "Setup", solidHeader = TRUE, collapsible=FALSE, height = 600,
+                        height = 800,
+                        tabPanel(width=12, title = "Meta",
                           column(width=4,
-                            h3("info")
+                            dataTableOutput("existingMetaDispensing")
+                          )
+                        ),
+                        tabPanel(width=12, title = "Dispensing",
+                          column(width=12,
+                            dataTableOutput("existingDataDispensing")
                           )
                         )
                       )

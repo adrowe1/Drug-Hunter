@@ -11,6 +11,7 @@ library(stringr)
 library(tools)
 library(ggplot2)
 library(viridis)
+library(DT)
 
 library(RSQLite)
 library(lubridate)
@@ -45,6 +46,8 @@ dbTables <- c("user", # user details
               "library_contents", # Relevant information about library plate
               "picking_parameters", # setup parameters for plate picking
               "picking_list", # final picking list
+              "dispensing_list", # data from dispensing lists imported from robot
+              "dispensing_metadata", # additional data from dispensing file import
               "plate_types", # table of available plate types
               "compound_annotations", # annotations for compounds in libraries
               "datasets_overview", # details of datasets which have been imported
@@ -67,6 +70,13 @@ plate_types <- data_frame(`Plate Type`="384 Greiner_781098", `Number of Rows`=16
 picking_parameters <- data_frame(`PickingID`="Pick00000", `Plate Type`="384 Greiner_781098", `Number of controls`=10, `Concentrations`="1000, 100, 10, 1, 0.1")
 # Table structure for PICKING_LIST table
 picking_list <- data_frame(`PickingID`="Pick00000", Well="A1", Compound="comp00000", Concentration=10)
+# Dispensing lists from robot
+dispensing_list <- data_frame(`Source Plate Name`="dummy", `Source Plate Barcode`="dummy", `Source Well`="dummy",
+  `Destination Plate Name`="dummy", `Destination Plate Barcode`="dummy", `Destination Well`="dummy",
+  `Transfer Volume`=0, `Actual Volume`=0, `Current Fluid Volume`=0, `Fluid Composition`=0,
+  `Fluid Units`="dummy", `Fluid Type`="dummy", `Transfer Status`="dummy", checksum="0")
+# Dispensing meta data
+dispensing_metadata <- data_frame(info="dummy", value="dummy", checksum="0", filename="dummy")
 # Table structure for COMPOUND_ANNOTATIONS table
 compound_annotations <- data_frame(compoundID="comp00000", Target="Nothing", `Additional Information`="Free text")
 # Table structure for DATASETS_OVERVIEW table
@@ -78,21 +88,26 @@ datasets_annotations <- data_frame(`SampleID`="Sample00000", Gender="M", Age=100
 
 
 
+# If database type is sqlite, check existence of db and create if necessary
+if (configData[1,"dbType"] == "SQLite"){
+  dbPath <- configData[1,"dbPath"] %>% unname()
+  # If no data directory exits to house the DB, create it
+  if (!dir.exists(dirname(dbPath)))
+    dir.create(dirname(dbPath))
+  # Initiate a SQLite DB if doesn't already exist
+  local_db <- src_sqlite(path = dbPath, create = TRUE)
+  # list the tables present in the db
+  existingTables <- src_tbls(local_db)
+  # Check which of the standard required tables are not present
+  missingTables <- dbTables %w/o% existingTables
 
-# If no data directory exits to house the DB, create it
-if (!dir.exists("data"))
-  dir.create("data")
-# Initiate a SQLite DB if doesn't already exist
-local_db <- src_sqlite(path = "data/local_db.sqlite3", create = TRUE)
-# list the tables present in the db
-existingTables <- src_tbls(local_db)
-# Check which of the standard required tables are not present
-missingTables <- dbTables %w/o% existingTables
-
-# create missing tables in DB
-for (missingTable in missingTables){
-  copy_to(dest=local_db, df=eval(as.symbol(missingTable)), temporary = FALSE, name=missingTable)
+  # create missing tables in DB
+  for (missingTable in missingTables){
+    copy_to(dest=local_db, df=eval(as.symbol(missingTable)), temporary = FALSE, name=missingTable)
+  }
 }
+
+
 
 # END DATABASE CREATION
 
