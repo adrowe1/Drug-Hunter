@@ -82,11 +82,12 @@ dashboardPage(skin = configData[1,"skin"],
                                    id = "tabsPrep",
                                    height = 400,
                                    tabPanel(width=12, title = "1: Choose files",
-                                            box(width=4, height=250, title="Upload .zip file", solidHeader=TRUE, background="red",
+                                            box(width=4, height=250, title="1: Upload .zip file", solidHeader=TRUE, background="red",
                                               HTML("<button type='button' id='resetImport' class='btn btn-warning'>Reset</button>"),
                                                 fileInput("filesIn", "Import zipped data files", multiple = FALSE, accept = c(".zip") )
                                             ),
-                                            uiOutput("chooseFilesSampleGroupsBox")
+                                            uiOutput("chooseFilesSampleGroupsBox"),
+                                            uiOutput("showFilesSampleGroupsBox")
                                    ),
                                    tabPanel(width=12, title = "Settings",
                                             box(width=4, height=150, title="Transfer file identifier", solidHeader=TRUE, background="olive",

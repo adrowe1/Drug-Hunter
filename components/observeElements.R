@@ -10,5 +10,16 @@ observeEvent(input$resetImport, {
 
 # update dropdownSampleGroups list with available data which has not already been imported
 observe({
-  # FIXME if
+  if (is.null(individualsInDataset()))
+    return(NULL)
+  updateSelectInput(session, "dropdownSampleGroups", choices = individualsInDataset() )
+})
+
+
+# update dropdownIndividualImports list with available data which has not already been imported
+observe({
+  if (is.null(filesInIndividual()))
+    return(NULL)
+  choices <- filesInIndividual() %>% filter(imported==FALSE) %>% use_series(files) %>% basename
+  updateSelectInput(session, "dropdownIndividualImports", choices = choices )
 })

@@ -9,7 +9,7 @@ filesToImport <- reactive({
   if (is.null(input$filesIn))
     return(NULL)
   # get details of all files in zip file
-  filesInZip <- zipFileContents(input$filesIn)
+  filesInZip <- zipFileContents(input$filesIn$datapath)
 
   # get list of all checksums in imported dispensing files
   SQLquery <- "SELECT DISTINCT checksum FROM dispensing_metadata"
@@ -34,17 +34,60 @@ filesToImport <- reactive({
 
 
 
-# FIXME
-# # List individuals available in dataset for dropdownSampleGroups dropdown
-# individualsinDataset <- reactive({
-#   # give back a null if inputs are NULL
-#   if (is.null(input$filesIn))
-#     return(NULL)
-#   filesToImport()
-# list of data groups
-# allIndividuals <- allFiles %>%
-#   stringr::str_split_fixed("/", 3) %>%
-#   .[,2] %>%
-#   unique
-# })
+
+# List individuals available in dataset for dropdownSampleGroups dropdown
+individualsInDataset <- reactive({
+  # give back a null if inputs are NULL
+  if (is.null(filesToImport()))
+    return(NULL)
+  # get individual title from paths of all files
+  allIndividuals <- filesToImport()$files %>%
+  stringr::str_split_fixed("/", 3) %>%
+  .[,2] %>%
+  unique
+  # return
+  allIndividuals
+})
+
+
+
+# List files for an individual
+filesInIndividual <- reactive({
+  # give back a null if inputs are NULL
+  if (is.null(individualsInDataset()))
+    return(NULL)
+  if (is.null(input$dropdownSampleGroups))
+    return(NULL)
+
+  # get the data for the chosen chosen individual - input$dropdownSampleGroups
+  output <- filesToImport() %>%
+    dplyr::filter(grepl(input$dropdownSampleGroups, files)) %>%
+    select(-checksum)
+
+  # return
+  output
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

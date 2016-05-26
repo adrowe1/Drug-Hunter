@@ -13,16 +13,9 @@ shinyServer(function(input, output, session) {
   source('components/extractFromDatabase.R', local=TRUE)
 
 
-
   # Process data for UI components ------------------
 
   source('components/dataProcessing.R', local=TRUE)
-
-
-
-
-
-
 
 
   # Table outputs ------------------------
@@ -30,14 +23,9 @@ shinyServer(function(input, output, session) {
   source('components/tableOutputs.R', local=TRUE)
 
 
-
-
-
   # Interactive UI outputs ------------------------
 
   source('components/interactiveUIelements.R', local=TRUE)
-
-
 
 
   # Interactivity observe and observeEvent calls -------
