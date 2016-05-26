@@ -45,8 +45,10 @@ dbTables <- c("user", # user details
               "library_contents", # Relevant information about library plate
               "picking_parameters", # setup parameters for plate picking
               "picking_list", # final picking list
-              "dispensing_list", # data from dispensing lists imported from robot
-              "dispensing_metadata", # additional data from dispensing file import
+              "dispensing_list", # data from dispensing lists imported from robot   ******
+              "dispensing_metadata", # additional data from dispensing file import  ******
+              "plate_data", # standard data import from plate                       ******
+              "plate_metadata", # standard metadata import from plate               ******
               "plate_types", # table of available plate types
               "compound_annotations", # annotations for compounds in libraries
               "datasets_overview", # details of datasets which have been imported
@@ -84,6 +86,10 @@ datasets_overview <- data_frame(`SampleID`="Sample00000", `Sample name`="Somethi
 datasets <- data_frame(`SampleID`="Sample00000", Row="A", Column=1, Value=0)
 # Table structure for DATASETS_ANNOTATIONS table
 datasets_annotations <- data_frame(`SampleID`="Sample00000", Gender="M", Age=100, Genetics="chr1:000001A/T, chr1:000002A/C")
+# data frame for standard data import from plate
+plate_data <- data_frame(well="Z0", value=1, checksum="0", `Keep Flag`=FALSE)
+# data frame for standard metadata import from plate
+plate_metadata <- data_frame(info="dummy", value="dummy", checksum="0", filename="dummy")
 
 
 

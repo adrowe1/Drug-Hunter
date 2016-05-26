@@ -81,8 +81,9 @@ dashboardPage(skin = configData[1,"skin"],
                                    title = "Import Raw Data",
                                    id = "tabsPrep",
                                    height = 400,
-                                   tabPanel(width=12, title = "Choose files",
-                                            box(width=4, height=150, title="Upload .zip file", solidHeader=TRUE, background="red",
+                                   tabPanel(width=12, title = "1: Choose files",
+                                            box(width=4, height=250, title="Upload .zip file", solidHeader=TRUE, background="red",
+                                              HTML("<button type='button' id='resetImport' class='btn btn-warning'>Reset</button>"),
                                                 fileInput("filesIn", "Import zipped data files", multiple = FALSE, accept = c(".zip") )
                                             ),
                                             uiOutput("chooseFilesSampleGroupsBox")

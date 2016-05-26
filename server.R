@@ -8,14 +8,15 @@
 
 shinyServer(function(input, output, session) {
 
-  # Extract initial values from database ---------------------
+  # Extract values from database ---------------------
 
   source('components/extractFromDatabase.R', local=TRUE)
 
 
 
+  # Process data for UI components ------------------
 
-
+  source('components/dataProcessing.R', local=TRUE)
 
 
 
@@ -39,6 +40,9 @@ shinyServer(function(input, output, session) {
 
 
 
+  # Interactivity observe and observeEvent calls -------
+
+  source('components/observeElements.R', local=TRUE)
 
 
 
