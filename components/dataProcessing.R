@@ -3,13 +3,13 @@
 
 
 
-# List files available in dataset which have not yet been imported
+# List files available in dataset which have not yet been imported ------------------
 filesToImport <- reactive({
   # give back a null if inputs are NULL
   if (is.null(input$filesIn))
     return(NULL)
   # get details of all files in zip file
-  filesInZip <- zipFileContents(input$filesIn$datapath)
+  filesInZip <- zipFileContents(input$filesIn$datapath, tmpdir = tempDirectory)
 
   # get list of all checksums in imported dispensing files
   SQLquery <- "SELECT DISTINCT checksum FROM dispensing_metadata"
@@ -35,7 +35,7 @@ filesToImport <- reactive({
 
 
 
-# List individuals available in dataset for dropdownSampleGroups dropdown
+# List individuals available in dataset for dropdownSampleGroups dropdown --------------------
 individualsInDataset <- reactive({
   # give back a null if inputs are NULL
   if (is.null(filesToImport()))
@@ -51,7 +51,7 @@ individualsInDataset <- reactive({
 
 
 
-# List files for an individual
+# List files for an individual--------------------
 filesInIndividual <- reactive({
   # give back a null if inputs are NULL
   if (is.null(individualsInDataset()))
@@ -72,10 +72,17 @@ filesInIndividual <- reactive({
 
 
 
+# put all file classification regexes into a data frame with the associated database table name --------------
+fileClassifiers <- reactive({
+  regexes <- data_frame(pattern = c(input$regexDispensingPattern, input$regexPlatePattern, input$regexLibraryPattern, input$regexAnnotationPattern),
+                        type = c("dispensing", "plate", "library", "annotation"),
+                        dbDataTable = c("dispensing_list", "plate_data", "library_data", "annotation_data"),
+                        dbMetaTable = c("dispensing_metadata", "plate_metadata", "library_metadata", "annotation_metadata") ## FIXME
+    )
 
-
-
-
+  # return
+  regexes
+})
 
 
 

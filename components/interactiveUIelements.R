@@ -37,8 +37,9 @@ output$showFilesSampleGroupsBox <- renderUI({
         # radio button to choose whether to import all or individually
         radioButtons("radioSingleAllImport", "Import singly or all", choices = c("single", "all"), selected = "all", inline = TRUE),
         # button to import chosen file(s)
-        # actionButton()
-        h3("FIXME button to import - classify each file correctly by settings regex and put in correct table")
+        #HTML("<button type='button' id='buttonDatasetImport' class='btn btn-primary'>Import</button>")
+      actionButton("buttonDatasetImport", "Import!")
+        # h3("FIXME button to import - classify each file correctly by settings regex and put in correct table")
     )
   }
 })

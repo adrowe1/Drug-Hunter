@@ -83,22 +83,32 @@ dashboardPage(skin = configData[1,"skin"],
                                    height = 400,
                                    tabPanel(width=12, title = "1: Choose files",
                                             box(width=4, height=250, title="1: Upload .zip file", solidHeader=TRUE, background="red",
-                                              HTML("<button type='button' id='resetImport' class='btn btn-warning'>Reset</button>"),
-                                                fileInput("filesIn", "Import zipped data files", multiple = FALSE, accept = c(".zip") )
+                                                fileInput("filesIn", "Import zipped data files", multiple = FALSE, accept = c(".zip") ),
+                                                HTML("<button type='button' id='buttonResetImport' class='btn btn-default', disabled='disabled'>Reset</button>")
                                             ),
                                             uiOutput("chooseFilesSampleGroupsBox"),
                                             uiOutput("showFilesSampleGroupsBox")
                                    ),
                                    tabPanel(width=12, title = "Settings",
-                                            box(width=4, height=150, title="Transfer file identifier", solidHeader=TRUE, background="olive",
-                                                textInput("transferPattern", "Pattern", value="Transfer")
+                                     fluidRow(
+                                       box(width=12, height=50, title="Classifying file type by regular naming convention", solidHeader=TRUE, background="olive",
+                                         h3("The settings below must be unique to the file name of each type of data file, and cannot exist in other file names")
+                                       )
+                                     ),
+                                     fluidRow(
+                                            box(width=3, height=150, title="Dispensing file identifier", solidHeader=TRUE, background="olive",
+                                                textInput("regexDispensingPattern", "Regular expression in file name:", value="Transfer")
                                             ),
-                                            box(width=4, height=150, title="Compound file identifier", solidHeader=TRUE, background="olive",
-                                                textInput("compoundPattern", "Pattern", value="Compound_Annotations.xls")
+                                            box(width=3, height=150, title="Plate data file identifier", solidHeader=TRUE, background="olive",
+                                                textInput("regexPlatePattern", "Regular expression in file name:", value="plate")
                                             ),
-                                            box(width=4, height=150, title="Compound file identifier", solidHeader=TRUE, background="olive",
-                                                textInput("pickingPattern", "Pattern", value="_pick.csv")
+                                            box(width=3, height=150, title="Drug library identifier", solidHeader=TRUE, background="olive",
+                                                textInput("regexLibraryPattern", "Regular expression in file name:", value="Selleck")
+                                            ),
+                                            box(width=3, height=150, title="Drug annotation identifier", solidHeader=TRUE, background="olive",
+                                              textInput("regexAnnotationPattern", "Regular expression in file name:", value="annotation")
                                             )
+                                     )
                                    )
                             )
                           )

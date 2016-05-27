@@ -35,7 +35,7 @@ messageData <- data.frame(from=c("Test", "Admin"), message=letters[1:2])
 
 
 # tmp directory for unzipping to etc
-tmpdir <- tempdir()
+tempDirectory <- tempdir()
 
 
 
