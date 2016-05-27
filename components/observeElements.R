@@ -21,12 +21,16 @@ observeEvent(input$buttonDatasetImport, {
     choices <- filesInIndividual() %>% filter(imported==FALSE) %>% use_series(files) %>% basename
   }
   # write to DB
-  putChosenFilesIntoDatabase(choices, input$dropdownSampleGroups, fileClassifiers(), configData[1,"dbPath"], input$filesIn$datapath, tmpdir = tempDirectory) # FIXME - issue in drugHunteR unable to find an inherited method for function ‘dbReadTable’ for signature ‘"SQLiteConnection", "NULL"’
+  putChosenFilesIntoDatabase(choices, input$dropdownSampleGroups, fileClassifiers(), configData[1,"dbPath"], input$filesIn$datapath, tmpdir = tempDirectory)
 
 
 
   # refresh contents of dropdowns by calling filesInIndividual() - this should work, but is strictly speaking an ugly hack.
-  dump <- filesInIndividual()
+  # FIXME this is not having the desired effect
+  if (is.null(filesInIndividual()))
+    return(NULL)
+  choices <- filesInIndividual() %>% filter(imported==FALSE) %>% use_series(files) %>% basename
+  updateSelectInput(session, "dropdownIndividualImports", choices = choices )
 })
 
 
@@ -55,6 +59,9 @@ observe({
 
 # update dropdownIndividualImports list with available data which has not already been imported
 observe({
+  # take a dependency on the sample choice dropdown
+  input$dropdownSampleGroups # FIXME this is not having the desired effect
+
   if (is.null(filesInIndividual()))
     return(NULL)
   choices <- filesInIndividual() %>% filter(imported==FALSE) %>% use_series(files) %>% basename

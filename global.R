@@ -74,10 +74,10 @@ picking_parameters <- data_frame(`PickingID`="Pick00000", `Plate Type`="384 Grei
 # Table structure for PICKING_LIST table
 picking_list <- data_frame(`PickingID`="Pick00000", Well="A1", Compound="comp00000", Concentration=10)
 # Dispensing lists from robot
-dispensing_list <- data_frame(`Source Plate Name`="dummy", `Source Plate Barcode`="dummy", `Source Well`="dummy",
-  `Destination Plate Name`="dummy", `Destination Plate Barcode`="dummy", `Destination Well`="dummy",
-  `Transfer Volume`=0, `Actual Volume`=0, `Current Fluid Volume`=0, `Fluid Composition`=0,
-  `Fluid Units`="dummy", `Fluid Type`="dummy", `Transfer Status`="dummy", checksum="0")
+dispensing_list <- data_frame(`Source.Plate.Name`="dummy", `Source.Plate.Barcode`="dummy", `Source.Well`="dummy",
+  `Destination.Plate.Name`="dummy", `Destination.Plate.Barcode`="dummy", `Destination.Well`="dummy",
+  `Transfer.Volume`=0, `Actual.Volume`=0, `Current.Fluid.Volume`=0, `Fluid.Composition`=0,
+  `Fluid.Units`="dummy", `Fluid.Type`="dummy", `Transfer.Status`="dummy", checksum="0")
 # Dispensing meta data
 dispensing_metadata <- data_frame(info="dummy", value="dummy", checksum="0", filename="dummy")
 # Table structure for COMPOUND_ANNOTATIONS table
@@ -89,7 +89,7 @@ datasets <- data_frame(`SampleID`="Sample00000", Row="A", Column=1, Value=0)
 # Table structure for DATASETS_ANNOTATIONS table
 datasets_annotations <- data_frame(`SampleID`="Sample00000", Gender="M", Age=100, Genetics="chr1:000001A/T, chr1:000002A/C")
 # data frame for standard data import from plate
-plate_data <- data_frame(well="Z0", value=1, checksum="0", `Keep Flag`=FALSE)
+plate_data <- data_frame(well="Z0", value=1, checksum="0", `Keep.Flag`=integer(1L))
 # data frame for standard metadata import from plate
 plate_metadata <- data_frame(info="dummy", value="dummy", checksum="0", filename="dummy")
 
