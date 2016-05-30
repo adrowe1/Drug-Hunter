@@ -23,6 +23,7 @@ library(drugHunteR)
 
 ### GLOBAL CONSTANTS --------------------
 
+
 # App config
 configData <- read.dcf("data/config.dcf")
 
@@ -54,7 +55,7 @@ dbTables <- c("user", # user details
               "plate_types", # table of available plate types
               "compound_annotations", # annotations for compounds in libraries
               "datasets_overview", # details of datasets which have been imported
-              "datasets", # contents of datasets
+              "plate_dispensing_xref", # cross referencing plate data with the dispensing file *******
               "datasets_annotations" # further metadata for datasets
 )
 
@@ -85,7 +86,7 @@ compound_annotations <- data_frame(compoundID="comp00000", Target="Nothing", `Ad
 # Table structure for DATASETS_OVERVIEW table
 datasets_overview <- data_frame(`SampleID`="Sample00000", `Sample name`="Something anonymous!", Classification="Healthy Donor", `Additional Information`="Free text entry of useful additional\ninfo which can potentially be parsed")
 # Table structure for DATASETS table
-datasets <- data_frame(`SampleID`="Sample00000", Row="A", Column=1, Value=0)
+plate_dispensing_xref <- data_frame(`files`="dummy", checksum="0", individual="dummy", dispensingFile="0")
 # Table structure for DATASETS_ANNOTATIONS table
 datasets_annotations <- data_frame(`SampleID`="Sample00000", Gender="M", Age=100, Genetics="chr1:000001A/T, chr1:000002A/C")
 # data frame for standard data import from plate
@@ -118,6 +119,10 @@ if (configData[1,"dbType"] == "SQLite"){
 
 # END DATABASE CREATION
 
+# tidy up by removing variables from environment
+rm(list = dbTables)
+
+rm(dbTables, existingTables, missingTable, missingTables)
 
 
 

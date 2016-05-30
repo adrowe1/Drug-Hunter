@@ -12,9 +12,18 @@ output$chooseFilesSampleGroupsBox<- renderUI({
         h4("select a zip file in the first step")
     )
   } else {
-    box(width=4, height=250, title="2: Individuals in dataset", solidHeader=TRUE, background="green",
+    bkg <- "green"
+    infoString <- ""
+    # if all files in dataset imported, set a new colour and a text string to inform
+    if( all(filesInIndividual()$imported) ){
+      bkg <- "black"
+      infoString <- "All files have been imported"
+    }
+    # create box
+    box(width=4, height=250, title="2: Individuals in dataset", solidHeader=TRUE, background=bkg,
         selectInput("dropdownSampleGroups", "Choose individual to import", choices=NULL, selected = NULL, multiple = FALSE,
-          selectize = TRUE, width = NULL, size = NULL)
+          selectize = TRUE, width = NULL, size = NULL),
+        h4(infoString)
     )
   }
 })

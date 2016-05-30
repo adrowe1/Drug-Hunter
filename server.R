@@ -8,6 +8,12 @@
 
 shinyServer(function(input, output, session) {
 
+  # Reactive values
+  variables <- reactiveValues()
+  # initial values
+  variables$alreadyImported <-  listImportedChecksums(configData[1,"dbPath"])
+
+
   # Extract values from database ---------------------
 
   source('components/extractFromDatabase.R', local=TRUE)
@@ -33,6 +39,9 @@ shinyServer(function(input, output, session) {
   source('components/observeElements.R', local=TRUE)
 
 
+  # Extract imported data from database -------
+
+  source('components/extractResultsFromDatabase.R', local=TRUE)
 
 
 })

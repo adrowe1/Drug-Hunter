@@ -1,6 +1,16 @@
 # All data processing components here
 
 
+# Files already imported to database - checksums -----------
+# put into reactiveValues - "variables"
+variables$alreadyImported <- reactive({
+  listImportedChecksums(configData[1,"dbPath"])
+})
+
+
+
+
+
 
 
 # List files available in dataset which have not yet been imported ------------------
@@ -11,16 +21,13 @@ filesToImport <- reactive({
   # get details of all files in zip file
   filesInZip <- zipFileContents(input$filesIn$datapath, tmpdir = tempDirectory)
 
-  # get list of all checksums in imported dispensing files
-  SQLquery <- "SELECT DISTINCT checksum FROM dispensing_metadata"
-  importedDispensing <- queryDB("data/local_db.sqlite3", SQLquery)
+  # update reactive values fir already imported files
+  variables$alreadyImported <-  listImportedChecksums(configData[1,"dbPath"])
 
-  # get list of all checksums in imported data files
-  SQLquery <- "SELECT DISTINCT checksum FROM plate_metadata"
-  importedPlate <- queryDB("data/local_db.sqlite3", SQLquery)
-
-  # already imported checksums
-  alreadyImported <- bind_rows(importedDispensing, importedPlate) %>% mutate(imported=TRUE)
+  # pass reactive value to a simple R object -
+  # currently getting an error: no applicable method for 'tbl_vars' applied to an object of class "reactive"
+  # when passing variables$alreadyImported directly below -  this works -- why?!
+  alreadyImported <- variables$alreadyImported
 
   # retain only files in list which have not already been imported
   fileStatus <- left_join(filesInZip, alreadyImported) %>%
@@ -63,6 +70,38 @@ filesInIndividual <- reactive({
   output <- filesToImport() %>%
     dplyr::filter(grepl(input$dropdownSampleGroups, files)) %>%
     select(-checksum)
+
+  # return
+  output
+})
+
+
+
+
+# get first individual in dataset with unimported data -----------
+firstUnimportedIndividual <- reactive({
+  # give back a null if inputs are NULL
+  if (is.null(filesToImport()))
+    return(NULL)
+  if (is.null(individualsInDataset()))
+    return(NULL)
+  if (is.null(input$dropdownSampleGroups))
+    return(NULL)
+
+  # get individual title from paths of all files
+  groupFilesByIndividual <- filesToImport() %>%
+    mutate(individual = stringr::str_split_fixed(files, "/", 3) %>% .[,2]) %>%
+    group_by(individual) %>%
+    summarise(unimported = !all(imported)) %>%
+    arrange(individual)
+
+  if ( !any(groupFilesByIndividual$unimported) ){
+    output <- groupFilesByIndividual$individual[1]
+  } else {
+    output <- groupFilesByIndividual %>%
+      filter(unimported) %>%
+      use_series(individual) %>% .[1]
+  }
 
   # return
   output

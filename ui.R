@@ -115,7 +115,37 @@ dashboardPage(skin = configData[1,"skin"],
                           ),
 
                   # Dashboard body tab 1 -----------------
-                  tabItem(tabName = "inspect"),
+                  tabItem(tabName = "inspect",
+                          fluidRow(
+                            box(width=4, height=250, title="Healthy reference data", solidHeader=TRUE, background="black",
+                                textInput("healthyDonorRegex", "Pattern defining healthy donors", value="healthy"),
+                                selectizeInput("selectHealthyReferenceIndividuals", label="", choices = NULL, selected = NULL, multiple = TRUE)
+                            ),
+                            box(width=4, height=250, title="Patient data", solidHeader=TRUE, background="red",
+                                selectizeInput("selectPatients", label="", choices = NULL, selected = NULL, multiple = FALSE),
+                                h4("Choose a patient to view results")
+                            ),
+                            box(width=4, height=250, title="Drug responses", solidHeader=TRUE, background="black",
+                                radioButtons("radioDisplayDrugResponses", "View drugs by",
+                                             choices = c("Performance order" = "sorted",
+                                                         "Search" = "search"), inline = TRUE),
+                                # condition == sorted
+                                conditionalPanel(
+                                  condition = "input.radioDisplayDrugResponses == 'sorted'",
+                                  numericInput("numberDrugsPlotPerformance", "Number of drugs to show together", value = 12, min=1, max=48), # arbitrary values chosen here
+                                  sliderInput("slideThroughDrugList", "scroll through list", min=1, max=384, value=1, step=1) # arbitrary values.. fix with observe updates and finally replace with interactive waterfall plot
+                                  ),
+                                # condition == search
+                                conditionalPanel(
+                                  condition = "input.radioDisplayDrugResponses == 'search'",
+                                  selectizeInput("selectDrugs", label="", choices = NULL, selected = NULL, multiple = FALSE)
+                                )
+                            )
+                          ),
+                          fluidRow(
+                            box(width=12, height = 800, title = "Drug Responses", solidHeader = TRUE, background = "black")
+                          )
+                        ),
 
                   # Dashboard body tab 1 -----------------
                   tabItem(tabName = "output"),
